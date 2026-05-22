@@ -63,7 +63,7 @@ export function PlayerRouletteReveal({
     setLocked(false)
     setActive(candidates[0] ?? target)
 
-    candidates.slice(0, 16).forEach((player) => {
+    candidates.slice(0, 7).forEach((player) => {
       const src = resolvePlayerImage(player.name, player.image ?? `/players/${slugify(player.name)}.png`)
       if (src) {
         const img = new window.Image()
@@ -72,7 +72,7 @@ export function PlayerRouletteReveal({
     })
 
     let ticks = 0
-    const maxTicks = 16
+    const maxTicks = 7
     const interval = window.setInterval(() => {
       ticks += 1
       if (ticks >= maxTicks) {
@@ -84,7 +84,7 @@ export function PlayerRouletteReveal({
 
       const next = candidates[ticks % candidates.length] ?? target
       setActive(next)
-    }, 430)
+    }, 390)
 
     return () => window.clearInterval(interval)
   }, [candidates, target])

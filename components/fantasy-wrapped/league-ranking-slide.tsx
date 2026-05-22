@@ -9,7 +9,7 @@ interface LeagueRankingSlideProps {
   selectedManager?: ManagerWrapped
 }
 
-const REVEAL_INTERVAL_MS = 2850
+const REVEAL_INTERVAL_MS = 2000
 
 export function LeagueRankingSlide({ selectedManager }: LeagueRankingSlideProps) {
   const revealOrder = useMemo(
