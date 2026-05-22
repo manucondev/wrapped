@@ -69,7 +69,7 @@ export function PlayerRouletteReveal({
         const img = new window.Image()
         img.src = src
       }
-    })
+    }) 
 
     let ticks = 0
     const maxTicks = 7
