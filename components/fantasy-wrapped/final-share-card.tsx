@@ -33,11 +33,13 @@ export function FinalShareCard({ manager, onRestart, onChangeManager }: FinalSha
           <div className="flex items-start justify-between gap-3 mb-4">
             <div className="min-w-0">
               <p className="text-[10px] text-[#00FF85] font-black tracking-[0.24em] uppercase">Juankar I League</p>
-              <h3 className="text-4xl leading-[0.95] font-black tracking-tight mt-1 max-w-[230px] truncate">{manager.name}</h3>
+              <h3 className="mt-1 max-w-[240px] break-words text-[clamp(2rem,8vw,2.5rem)] leading-[0.95] font-black tracking-tight">
+                {manager.name}
+              </h3>
             </div>
             <div className="text-right shrink-0">
               <p className="text-[10px] text-[#94A3B8] font-black tracking-[0.18em] uppercase">Puesto</p>
-              <p className="text-5xl leading-none font-black text-[#00FF85]">#{manager.rank}</p>
+              <p className="text-5xl leading-none font-black text-[#00FF85]">{manager.rank}º</p>
             </div>
           </div>
 
@@ -99,23 +101,6 @@ export function FinalShareCard({ manager, onRestart, onChangeManager }: FinalSha
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
         >
-          {onRestart && (
-            <button
-              onClick={onRestart}
-              className="h-14 rounded-full bg-gradient-to-r from-[#00FF85] to-[#00A3FF] text-black font-black tracking-wide flex items-center justify-center gap-2 active:scale-95 transition-transform"
-            >
-              <RotateCcw className="w-4 h-4" />
-              Volver al inicio
-            </button>
-          )}
-          {onChangeManager && (
-            <button
-              onClick={onChangeManager}
-              className="h-12 rounded-full bg-[#0a0f1a] border border-white/10 text-[#F8FAFC] font-bold tracking-wide active:scale-95 transition-transform"
-            >
-              Cambiar manager
-            </button>
-          )}
         </motion.div>
       )}
     </div>

@@ -19,7 +19,7 @@ interface MatchdayAnimatedLineupProps {
 }
 
 // Más lento para que dé tiempo a cargar la foto y leer puntos/nombre en móvil.
-const PLAYER_INTERVAL_MS = 3600
+const PLAYER_INTERVAL_MS = 2500
 
 export function MatchdayAnimatedLineup({
   type,
