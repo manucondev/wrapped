@@ -140,7 +140,7 @@ export function WrappedPlayer({ manager, onComplete, onBack }: WrappedPlayerProp
 
       case 1:
         return (
-          <WrappedSlide key="total-points">
+          <WrappedSlide key="total-points" vertical="center">
             <div className="text-center">
               <motion.p className="text-[#94A3B8] text-xs tracking-[0.2em] uppercase mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                 Puntos totales
@@ -157,7 +157,7 @@ export function WrappedPlayer({ manager, onComplete, onBack }: WrappedPlayerProp
 
       case 2:
         return (
-          <WrappedSlide key="position">
+          <WrappedSlide key="position" vertical="center">
             <div className="text-center">
               <motion.p className="text-[#94A3B8] text-xs tracking-[0.2em] uppercase mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                 Tu posición final
@@ -210,7 +210,7 @@ export function WrappedPlayer({ manager, onComplete, onBack }: WrappedPlayerProp
 
       case averageIndex:
         return (
-          <WrappedSlide key="average">
+          <WrappedSlide key="average" vertical="center">
             <div className="text-center max-w-xs mx-auto">
               <motion.div className="flex items-center justify-center gap-2 text-[#00A3FF] mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <Target className="w-5 h-5" />

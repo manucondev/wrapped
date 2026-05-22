@@ -6,6 +6,7 @@ import { ReactNode } from "react"
 interface WrappedSlideProps {
   children: ReactNode
   className?: string
+  vertical?: "start" | "center"
 }
 
 export const slideVariants = {
@@ -14,10 +15,12 @@ export const slideVariants = {
   exit: { opacity: 0, scale: 1.02, filter: "blur(8px)" },
 }
 
-export function WrappedSlide({ children, className = "" }: WrappedSlideProps) {
+export function WrappedSlide({ children, className = "", vertical = "start" }: WrappedSlideProps) {
+  const verticalClass = vertical === "center" ? "justify-center" : "justify-start"
+
   return (
     <motion.div
-      className={`h-[100svh] min-h-[100svh] overflow-hidden flex flex-col items-center justify-start px-5 pt-[calc(env(safe-area-inset-top)+4.75rem)] pb-[calc(env(safe-area-inset-bottom)+6.5rem)] relative ${className}`}
+      className={`h-[100svh] min-h-[100svh] overflow-hidden flex flex-col items-center ${verticalClass} px-5 pt-[calc(env(safe-area-inset-top)+4.75rem)] pb-[calc(env(safe-area-inset-bottom)+6.5rem)] relative ${className}`}
       variants={slideVariants}
       initial="initial"
       animate="animate"

@@ -78,7 +78,7 @@ export function MatchdayAnimatedLineup({
   }
 
   return (
-    <div className="w-full max-w-[360px] mx-auto" onPointerDown={handlePointerDown}>
+    <div className="w-full max-w-[340px] mx-auto -mt-2" onPointerDown={handlePointerDown}>
       <motion.div
         className="text-center mb-3"
         initial={{ opacity: 0, y: 14 }}
@@ -90,7 +90,7 @@ export function MatchdayAnimatedLineup({
             {isBest ? "Tu mejor once" : "Tu peor once"}
           </span>
         </div>
-        <h2 className="text-[2rem] leading-none font-black text-[#F8FAFC] tracking-tight">
+        <h2 className="text-[1.75rem] leading-none font-black text-[#F8FAFC] tracking-tight">
           Jornada <span style={{ color: accentColor }}>{gameweek}</span>
         </h2>
         <p className="text-[#94A3B8] text-xs mt-2 leading-snug">
@@ -159,68 +159,71 @@ function AnimatedLineupPlayer({
 
   return (
     <motion.div
-      className="relative h-[405px] overflow-hidden"
-      initial={{ opacity: 0, y: 24, scale: 0.97, filter: "blur(12px)" }}
+      className="relative h-[330px] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#070B14]/95 px-4 pt-4 pb-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
+      initial={{ opacity: 0, y: 20, scale: 0.97, filter: "blur(10px)" }}
       animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-      exit={{ opacity: 0, y: -22, scale: 1.03, filter: "blur(10px)" }}
-      transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+      exit={{ opacity: 0, y: -18, scale: 1.02, filter: "blur(8px)" }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <div
-        className="absolute top-12 left-1/2 -translate-x-1/2 w-56 h-56 rounded-full blur-[95px] opacity-25"
-        style={{ backgroundColor: accentColor }}
+        className="absolute inset-0 opacity-70"
+        style={{
+          background: `radial-gradient(circle at 50% 0%, ${accentColor}22, transparent 42%), linear-gradient(180deg, rgba(255,255,255,0.055), transparent 36%, rgba(0,0,0,0.34))`,
+        }}
       />
-      <div className="absolute top-0 left-0 right-0 flex items-center justify-between text-[9px] uppercase tracking-[0.2em] text-[#94A3B8] z-10">
+
+      <div className="absolute inset-0 opacity-[0.07] bg-[linear-gradient(90deg,transparent_0,transparent_48%,rgba(255,255,255,0.7)_49%,transparent_50%,transparent_100%)] bg-[size:42px_42px]" />
+
+      <div className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-[0.2em] text-[#94A3B8]">
         <span>Jugador {index + 1}/{total}</span>
         <span style={{ color: accentColor }}>{isBest ? "Impacto" : "Daño"}</span>
       </div>
 
-      <div className="relative pt-8 flex flex-col items-center h-full">
+      <div className="relative z-10 mt-5 flex flex-col items-center text-center">
         <motion.div
-          className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-full overflow-hidden bg-[#0a0f1a] shrink-0"
-          style={{ boxShadow: `0 0 72px ${accentColor}28` }}
-          initial={{ scale: 0.84, rotate: -2 }}
+          className="relative w-28 h-32 rounded-[1.35rem] overflow-hidden bg-[#0A0F1A] border border-white/10 shrink-0"
+          style={{ boxShadow: `0 0 36px ${accentColor}22` }}
+          initial={{ scale: 0.9, rotate: -1 }}
           animate={{ scale: 1, rotate: 0 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           {hasError || !resolvedImage ? (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#0a0f1a] to-[#1a1f2e]">
-              <span className="text-5xl font-black text-[#94A3B8]">{initials}</span>
+              <span className="text-3xl font-black text-[#94A3B8]">{initials}</span>
             </div>
           ) : (
             <Image
               src={resolvedImage}
               alt={player.name}
               fill
-              className="object-cover"
+              className="object-contain p-1"
               onError={() => setHasError(true)}
-              sizes="192px"
+              sizes="130px"
               priority={index < 2}
             />
           )}
         </motion.div>
 
-        <div className="text-center w-full mt-5">
-          <motion.h3
-            className="text-[2rem] leading-none font-black text-[#F8FAFC] tracking-tight mb-3 truncate px-2"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.22 }}
-          >
-            {player.name}
-          </motion.h3>
+        <motion.h3
+          className="mt-5 max-w-full break-words text-[1.65rem] leading-[0.95] font-black text-[#F8FAFC] tracking-tight px-2"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+        >
+          {player.name}
+        </motion.h3>
 
-          <motion.div
-            className="flex items-end justify-center gap-2"
-            initial={{ opacity: 0, scale: 0.88 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.38, type: "spring" }}
-          >
-            <span className="text-[4.8rem] leading-none font-black" style={{ color: accentColor }}>
-              {player.jornadaPoints}
-            </span>
-            <span className="text-[#94A3B8] text-sm mb-3 tracking-widest uppercase">pts</span>
-          </motion.div>
-        </div>
+        <motion.div
+          className="mt-4 flex items-end justify-center gap-2"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.32, type: "spring" }}
+        >
+          <span className="text-[3.85rem] leading-none font-black" style={{ color: accentColor }}>
+            {player.jornadaPoints}
+          </span>
+          <span className="text-[#94A3B8] text-xs mb-2.5 tracking-widest uppercase">pts</span>
+        </motion.div>
       </div>
     </motion.div>
   )
@@ -237,7 +240,7 @@ function MatchdayTotalReveal({
 }) {
   return (
     <motion.div
-      className="relative h-[405px] flex items-center justify-center overflow-hidden"
+      className="relative h-[330px] flex items-center justify-center overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#070B14]/90"
       initial={{ opacity: 0, scale: 0.92, filter: "blur(10px)" }}
       animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
       exit={{ opacity: 0 }}
@@ -250,7 +253,7 @@ function MatchdayTotalReveal({
         <p className="text-[11px] text-[#94A3B8] tracking-[0.24em] uppercase mb-3">
           {isBest ? "Total de la jornada" : "El daño total"}
         </p>
-        <div className="text-[6.5rem] font-black leading-none" style={{ color: accentColor }}>
+        <div className="text-[5.3rem] font-black leading-none" style={{ color: accentColor }}>
           <AnimatedNumber value={totalPoints} duration={1.3} />
         </div>
         <p className="text-[#94A3B8] text-lg mt-2">puntos</p>
