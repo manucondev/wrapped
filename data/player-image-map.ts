@@ -667,6 +667,7 @@ const PLAYER_IMAGES_BY_NORMALIZED_NAME: Record<string, string> = {
 }
 
 const PLAYER_IMAGE_ALIASES: Record<string, string> = {
+  // Alias generales
   "araujo": "araujo",
   "ayoze": "ayoze perez",
   "balde": "alex balde",
@@ -676,7 +677,72 @@ const PLAYER_IMAGE_ALIASES: Record<string, string> = {
   "kounde": "kounde",
   "thierry": "thierry correia",
   "vinicius": "vinicius jr",
+  "vini": "vinicius jr",
+  "vini jr": "vinicius jr",
   "williams": "nico williams",
+
+  // Alias reales detectados en el Wrapped
+  "aaron": "aaron escandell",
+  "hancko": "d hancko",
+  "a pedraza": "pedraza",
+  "c soler": "carlos soler",
+  "ounahi": "a ounahi",
+  "a moleiro": "moleiro",
+  "julian alvarez": "julian a",
+  "julian": "julian a",
+
+  "a valles": "valles",
+  "agirreza": "agirrezabala",
+  "agirreza…": "agirrezabala",
+  "agirrezabala": "agirrezabala",
+  "akor": "akor adams",
+  "alvaro g": "alvaro garcia",
+  "alvaro n": "alvaro nunez",
+  "arriaga": "kevin arriaga",
+  "buchanan": "t buchanan",
+  "cardona": "sergi cardona",
+
+  "david c": "david carmo",
+  "david costa": "logan costa",
+  "f de jong": "de jong",
+  "f garces": "facundo garces",
+  "febas": "aleix febas",
+  "german v": "german valera",
+  "gueye": "pape gueye",
+  "hector f": "hector fort",
+  "mateo jos": "m joseph",
+  "mateo jos...": "m joseph",
+  "matias moreno": "m moreno",
+  "ramazani": "l ramazani",
+  "t martinez": "toni martinez",
+  "v chust": "victor chust",
+  "vargas": "r vargas",
+  "victor m": "victor munoz",
+
+  // Otros alias útiles
+  "lamine": "lamine yamal",
+  "yamal": "lamine yamal",
+  "grizi": "griezmann",
+  "griezman": "griezmann",
+  "baena": "alex baena",
+  "moleiro": "moleiro",
+  "pedraza": "pedraza",
+  "soler": "carlos soler",
+  "ferran": "ferran torres",
+  "b iglesias": "borja iglesias",
+  "boyomo": "f boyomo",
+  "c romero": "carlos romero",
+  "gorrotxa": "jon gorrotxategi",
+  "gorrotxategi": "jon gorrotxategi",
+  "l milla": "luis milla",
+  "o mingueza": "mingueza",
+  "pacha": "espino",
+  "pepe": "n pepe",
+  "r mendoza": "rodrigo mendoza",
+  "santamaria": "b santamaria",
+  "suazo": "g suazo",
+  "thomas": "t partey",
+  "partey": "t partey",
 }
 
 export function normalizePlayerName(value: string): string {
@@ -703,6 +769,15 @@ export function getAnaliticaFantasyPlayerImage(name: string): string | undefined
 export function resolvePlayerImage(name: string, currentImage?: string): string {
   const externalImage = getAnaliticaFantasyPlayerImage(name)
 
-  if (externalImage) return externalImage
+  if (externalImage) {
+    return externalImage.replace("width=130&height=130", "width=300&height=300")
+  }
+
+  // Nunca intentes cargar rutas locales antiguas tipo /players/aaron.png.
+  // Si no hay imagen externa, dejamos que el componente pinte iniciales.
+  if (currentImage?.startsWith("/players/")) {
+    return ""
+  }
+
   return currentImage ?? ""
 }

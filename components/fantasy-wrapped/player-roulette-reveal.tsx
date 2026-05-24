@@ -64,7 +64,7 @@ export function PlayerRouletteReveal({
     setActive(candidates[0] ?? target)
 
     candidates.slice(0, 7).forEach((player) => {
-      const src = resolvePlayerImage(player.name, player.image ?? `/players/${slugify(player.name)}.png`)
+      const src = resolvePlayerImage(player.name, player.image)
       if (src) {
         const img = new window.Image()
         img.src = src
@@ -138,7 +138,7 @@ export function PlayerRouletteReveal({
           >
             <PlayerAvatar
               name={active.name}
-              image={active.image ?? `/players/${slugify(active.name)}.png`}
+              image={active.image ?? ""}
               size="xl"
               variant={accent === "gold" ? "captain" : "default"}
             />
