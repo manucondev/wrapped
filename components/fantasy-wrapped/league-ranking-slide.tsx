@@ -44,8 +44,7 @@ export function LeagueRankingSlide({ selectedManager }: LeagueRankingSlideProps)
         animate={{ opacity: 1, y: 0 }}
       >
         <p className="text-[#94A3B8] text-xs tracking-[0.2em] uppercase mb-2">Así terminó la Juankar I League</p>
-        <h2 className="text-3xl md:text-4xl font-black text-[#F8FAFC] tracking-tight">CLASIFICACIÓN FINAL</h2>
-        <p className="text-[#94A3B8] text-sm mt-2">Del 7º al 4º. Los tres primeros esperan en el podio.</p>
+        <h2 className="text-3xl md:text-4xl font-black text-[#F8FAFC] tracking-tight">CLASIFICACIÓN</h2>
       </motion.div>
 
       <div className="relative flex-1 min-h-[420px] flex items-center justify-center">

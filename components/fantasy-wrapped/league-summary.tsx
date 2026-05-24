@@ -9,7 +9,7 @@ import { NavigationButtons } from "./navigation-buttons"
 import { WrappedSlide } from "./wrapped-slide"
 import { LeagueRankingSlide } from "./league-ranking-slide"
 import { ChampionSlide } from "./champion-slide"
-import { LeagueAwardsSlide } from "./league-awards-slide"
+import { LeagueAwardsSlide, PersonalLeagueAwardSlide } from "./league-awards-slide"
 import { FinalShareCard } from "./final-share-card"
 
 interface LeagueSummaryProps {
@@ -19,7 +19,7 @@ interface LeagueSummaryProps {
   onChangeManager?: () => void
 }
 
-const TOTAL_SLIDES = 4
+const TOTAL_SLIDES = 5
 
 export function LeagueSummary({ selectedManager, onRestart, onBack, onChangeManager }: LeagueSummaryProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -45,6 +45,8 @@ export function LeagueSummary({ selectedManager, onRestart, onBack, onChangeMana
       case 1:
         return "Ver premios"
       case 2:
+        return "Ver mi premio"
+      case 3:
         return "Tu resumen"
       default:
         return "Siguiente"
@@ -72,6 +74,12 @@ export function LeagueSummary({ selectedManager, onRestart, onBack, onChangeMana
           </WrappedSlide>
         )
       case 3:
+        return (
+          <WrappedSlide key="personal-award" vertical="center">
+            <PersonalLeagueAwardSlide manager={selectedManager} />
+          </WrappedSlide>
+        )
+      case 4:
         return (
           <WrappedSlide key="final-summary">
             <FinalShareCard manager={selectedManager} onRestart={onRestart} onChangeManager={onChangeManager} />

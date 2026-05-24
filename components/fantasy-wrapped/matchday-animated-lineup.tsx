@@ -19,7 +19,7 @@ interface MatchdayAnimatedLineupProps {
 }
 
 // Más lento para que dé tiempo a cargar la foto y leer puntos/nombre en móvil.
-const PLAYER_INTERVAL_MS = 2500
+const PLAYER_INTERVAL_MS = 2300
 
 export function MatchdayAnimatedLineup({
   type,
@@ -32,6 +32,7 @@ export function MatchdayAnimatedLineup({
   const [activeIndex, setActiveIndex] = useState(0)
   const [finished, setFinished] = useState(false)
   const hasNotifiedFinish = useRef(false)
+  const lastAdvanceSignal = useRef(advanceSignal)
   const isBest = type === "best"
   const accentColor = isBest ? "#00FF85" : "#EF4444"
 
@@ -43,14 +44,16 @@ export function MatchdayAnimatedLineup({
 
   const advancePlayer = useCallback(() => {
     if (finished || lineup.length === 0) return
-
-    if (activeIndex >= lineup.length - 1) {
-      setFinished(true)
-      return
-    }
-
-    setActiveIndex((current) => Math.min(current + 1, lineup.length - 1))
-  }, [activeIndex, finished, lineup.length])
+  
+    setActiveIndex((current) => {
+      if (current >= lineup.length - 1) {
+        setFinished(true)
+        return current
+      }
+  
+      return current + 1
+    })
+  }, [finished, lineup.length])
 
   useEffect(() => {
     if (!finished || hasNotifiedFinish.current) return
@@ -65,7 +68,13 @@ export function MatchdayAnimatedLineup({
   }, [activeIndex, advancePlayer, finished, lineup.length])
 
   useEffect(() => {
-    if (advanceSignal > 0 && !finished) advancePlayer()
+    if (advanceSignal === lastAdvanceSignal.current) return
+  
+    lastAdvanceSignal.current = advanceSignal
+  
+    if (!finished) {
+      advancePlayer()
+    }
   }, [advanceSignal, advancePlayer, finished])
 
   const player = lineup[activeIndex]
@@ -78,7 +87,7 @@ export function MatchdayAnimatedLineup({
   }
 
   return (
-    <div className="w-full max-w-[340px] mx-auto -mt-2" onPointerDown={handlePointerDown}>
+    <div className="w-full max-w-[340px] mx-auto -mt-4" onPointerDown={handlePointerDown}>
       <motion.div
         className="text-center mb-3"
         initial={{ opacity: 0, y: 14 }}
@@ -93,8 +102,8 @@ export function MatchdayAnimatedLineup({
         <h2 className="text-[1.75rem] leading-none font-black text-[#F8FAFC] tracking-tight">
           Jornada <span style={{ color: accentColor }}>{gameweek}</span>
         </h2>
-        <p className="text-[#94A3B8] text-xs mt-2 leading-snug">
-          {finished ? "Total de la jornada." : "Toca a la derecha para acelerar."}
+        <p className="text-[#94A3B8] text-[11px] mt-2 leading-snug">
+          {finished ? "Total de la jornada." : "Toca a la derecha o pulsa acelerar para ver el siguiente."}
         </p>
       </motion.div>
 
@@ -146,6 +155,7 @@ function AnimatedLineupPlayer({
 }) {
   const [hasError, setHasError] = useState(false)
   const resolvedImage = resolvePlayerImage(player.name, player.image)
+
   const initials = useMemo(
     () =>
       player.name
@@ -157,73 +167,103 @@ function AnimatedLineupPlayer({
     [player.name],
   )
 
+  const shortName = useMemo(() => {
+    const parts = player.name.trim().split(/\s+/)
+
+    if (parts.length === 1) return parts[0]
+
+    const firstInitial = parts[0]?.[0] ? `${parts[0][0]}.` : ""
+    const lastName = parts[parts.length - 1] ?? player.name
+
+    return `${firstInitial} ${lastName}`
+  }, [player.name])
+
+  const points = player.jornadaPoints
+  const isPositive = points >= 0
+  const topAccent = isBest ? "#00B84A" : "#B91C1C"
+  const diagonalAccent = isBest ? "#00FF85" : "#EF4444"
+  const checkColor = isPositive ? "#16A34A" : "#DC2626"
+
   return (
     <motion.div
-      className="relative h-[330px] overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#070B14]/95 px-4 pt-4 pb-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
-      initial={{ opacity: 0, y: 20, scale: 0.97, filter: "blur(10px)" }}
+      className="relative flex justify-center pt-2"
+      initial={{ opacity: 0, y: 18, scale: 0.96, filter: "blur(10px)" }}
       animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-      exit={{ opacity: 0, y: -18, scale: 1.02, filter: "blur(8px)" }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      exit={{ opacity: 0, y: -16, scale: 1.02, filter: "blur(8px)" }}
+      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div
-        className="absolute inset-0 opacity-70"
-        style={{
-          background: `radial-gradient(circle at 50% 0%, ${accentColor}22, transparent 42%), linear-gradient(180deg, rgba(255,255,255,0.055), transparent 36%, rgba(0,0,0,0.34))`,
-        }}
-      />
+      <div className="relative w-[185px] h-[265px] overflow-hidden rounded-[0.35rem] bg-[#EDEFF3] shadow-[0_26px_70px_rgba(0,0,0,0.55)]">
+        {/* Fondo oscuro superior */}
+        <div className="absolute left-0 top-0 right-0 h-[194px] bg-[#1B2030]" />
 
-      <div className="absolute inset-0 opacity-[0.07] bg-[linear-gradient(90deg,transparent_0,transparent_48%,rgba(255,255,255,0.7)_49%,transparent_50%,transparent_100%)] bg-[size:42px_42px]" />
+        {/* Triángulo diagonal estilo Fantasy */}
+        <div
+          className="absolute left-0 top-0 w-[108px] h-[108px]"
+          style={{
+            background: `linear-gradient(135deg, ${topAccent} 0%, ${diagonalAccent} 100%)`,
+            clipPath: "polygon(0 0, 100% 0, 0 100%)",
+          }}
+        />
 
-      <div className="relative z-10 flex items-center justify-between text-[9px] uppercase tracking-[0.2em] text-[#94A3B8]">
-        <span>Jugador {index + 1}/{total}</span>
-        <span style={{ color: accentColor }}>{isBest ? "Impacto" : "Daño"}</span>
-      </div>
+        {/* Puntos */}
+        <div className="absolute left-3 top-3 z-20 text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]">
+          <div className="text-[2rem] leading-none font-black tracking-tight">
+            {points}
+          </div>
+          <div className="mt-0.5 text-[8px] uppercase tracking-[0.16em] font-bold opacity-90">
+            pts
+          </div>
+        </div>
 
-      <div className="relative z-10 mt-5 flex flex-col items-center text-center">
-        <motion.div
-          className="relative w-28 h-32 rounded-[1.35rem] overflow-hidden bg-[#0A0F1A] border border-white/10 shrink-0"
-          style={{ boxShadow: `0 0 36px ${accentColor}22` }}
-          initial={{ scale: 0.9, rotate: -1 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        >
+        {/* Indicador jugador */}
+        <div className="absolute right-2 top-2 z-20 rounded-full bg-black/35 px-2 py-1 text-[8px] font-bold tracking-[0.12em] text-white/80">
+          {index + 1}/{total}
+        </div>
+
+        {/* Imagen */}
+        <div className="absolute left-1/2 top-[36px] z-10 h-[154px] w-[145px] -translate-x-1/2">
           {hasError || !resolvedImage ? (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#0a0f1a] to-[#1a1f2e]">
-              <span className="text-3xl font-black text-[#94A3B8]">{initials}</span>
+            <div className="flex h-full w-full items-center justify-center rounded-xl bg-[#111827]">
+              <span className="text-4xl font-black text-[#94A3B8]">{initials}</span>
             </div>
           ) : (
             <Image
               src={resolvedImage}
               alt={player.name}
               fill
-              className="object-contain p-1"
+              className="object-contain object-bottom"
               onError={() => setHasError(true)}
-              sizes="130px"
+              sizes="145px"
               priority={index < 2}
             />
           )}
-        </motion.div>
+        </div>
 
-        <motion.h3
-          className="mt-5 max-w-full break-words text-[1.65rem] leading-[0.95] font-black text-[#F8FAFC] tracking-tight px-2"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.18 }}
-        >
-          {player.name}
-        </motion.h3>
+        {/* Franja inferior */}
+        <div className="absolute left-0 right-0 bottom-0 z-30 h-[72px] bg-[#F4F5F7] px-3 pt-3">
+          <div className="max-w-[128px] truncate text-[1.35rem] leading-none font-extrabold tracking-tight text-[#111827]">
+            {shortName}
+          </div>
+          <div className="mt-2 text-[9px] uppercase tracking-[0.18em] font-bold text-[#64748B]">
+            {isBest ? "Mejor once" : "Peor once"}
+          </div>
+        </div>
 
-        <motion.div
-          className="mt-4 flex items-end justify-center gap-2"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.32, type: "spring" }}
+        {/* Check / marca visual */}
+        <div
+          className="absolute right-2 bottom-[48px] z-40 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white shadow-[0_8px_20px_rgba(0,0,0,0.35)]"
+          style={{ backgroundColor: checkColor }}
         >
-          <span className="text-[3.85rem] leading-none font-black" style={{ color: accentColor }}>
-            {player.jornadaPoints}
-          </span>
-          <span className="text-[#94A3B8] text-xs mb-2.5 tracking-widest uppercase">pts</span>
-        </motion.div>
+          {isPositive ? (
+            <svg viewBox="0 0 24 24" className="h-6 w-6 text-white" fill="none" stroke="currentColor" strokeWidth="3">
+              <path d="M20 6 9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" className="h-6 w-6 text-white" fill="none" stroke="currentColor" strokeWidth="3">
+              <path d="M6 6l12 12M18 6 6 18" strokeLinecap="round" />
+            </svg>
+          )}
+        </div>
       </div>
     </motion.div>
   )

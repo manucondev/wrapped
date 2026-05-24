@@ -81,8 +81,8 @@ export function WrappedPlayer({ manager, onComplete, onBack }: WrappedPlayerProp
 
   const getButtonLabel = () => {
     if (currentSlide === 0) return "Vamos allá"
-    if (currentSlide === bestLineupIndex) return bestLineupDone ? "Continuar" : "Acelerar"
-    if (currentSlide === worstLineupIndex) return worstLineupDone ? "Continuar" : "Acelerar"
+    if (currentSlide === bestLineupIndex) return bestLineupDone ? "Continuar" : "Siguiente jugador"
+    if (currentSlide === worstLineupIndex) return worstLineupDone ? "Continuar" : "Siguiente jugador"
     if (currentSlide === totalSlides - 1) return "Ver resumen de la liga"
     return "Siguiente"
   }

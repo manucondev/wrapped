@@ -33,7 +33,7 @@ export function ChampionSlide() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
       >
-        PODIO FINAL
+        PODIO
       </motion.h2>
 
       <div className="relative">

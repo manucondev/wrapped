@@ -656,3 +656,83 @@ export function getRankedManagers(): ManagerWrapped[] {
 export function getTop3Managers(): ManagerWrapped[] {
   return getRankedManagers().slice(0, 3)
 }
+
+// ============================================
+// CUSTOM LEAGUE AWARDS
+// ============================================
+
+export type CustomLeagueAward = {
+  id: string
+  title: string
+  managerId: string
+  managerName: string
+  reason: string
+  image: string
+  accentColor: string
+}
+
+export const customLeagueAwards: CustomLeagueAward[] = [
+  {
+    id: "mayor-caida",
+    title: "La mayor caída",
+    managerId: "serlliii",
+    managerName: "serlliii",
+    reason: "Pasar del 2º al 5º puesto",
+    image: "/managers/serlliii.jpeg",
+    accentColor: "#EF4444",
+  },
+  {
+    id: "hasta-el-90",
+    title: "Hasta el 90",
+    managerId: "andrewskills",
+    managerName: "AndrewSkills",
+    reason: "Pasar del último al tercer puesto",
+    image: "/managers/andrewskills.jpeg",
+    accentColor: "#00A3FF",
+  },
+  {
+    id: "jornada-historica",
+    title: "Jornada histórica",
+    managerId: "javigaleano11",
+    managerName: "Javigaleano11",
+    reason: "Hacer 127 puntos en una jornada",
+    image: "/managers/javigaleano11.jpeg",
+    accentColor: "#00FF85",
+  },
+  {
+    id: "abuson",
+    title: "Abusón",
+    managerId: "el-hijo-prodigo",
+    managerName: "el hijo prodigo",
+    reason: "Estar primero 28 jornadas",
+    image: "/managers/elhijoprodigo.jpeg",
+    accentColor: "#FACC15",
+  },
+  {
+    id: "fe",
+    title: "Fe",
+    managerId: "pedrolgp01",
+    managerName: "pedrolgp01",
+    reason: "Aguantó a Isco lesionado durante 21 jornadas",
+    image: "/managers/pedrolgp01.jpeg",
+    accentColor: "#A855F7",
+  },
+  {
+    id: "casta",
+    title: "Casta",
+    managerId: "mrpablada",
+    managerName: "MrPablada",
+    reason: "Tener representación sevillista en su equipo 26 jornadas",
+    image: "/managers/mrpablada.jpeg",
+    accentColor: "#22C55E",
+  },
+  {
+    id: "hansi-arias",
+    title: "Hansi Arias",
+    managerId: "toniiarias",
+    managerName: "toniiarias",
+    reason: "Llevar a Hansi Flick 35 jornadas",
+    image: "/managers/toniiarias.jpeg",
+    accentColor: "#38BDF8",
+  },
+]
