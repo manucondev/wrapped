@@ -2,12 +2,7 @@
 
 Un «Wrapped» al estilo Spotify para una liga de fantasy entre amigos: coge los datos de toda la temporada y los convierte en una experiencia navegable de historias, personalizada para cada participante.
 
-<!-- SUSTITUIR: gif o captura de la secuencia de historias -->
-<!-- ![Secuencia de historias](docs/demo.gif) -->
-
-**[Ver en vivo →](#)** <!-- (https://fantasy-wrapped.pages.dev/) -->
-
----
+**[Ver en vivo →](https://fantasy-wrapped.pages.dev/)**
 
 ## La idea
 
@@ -48,7 +43,7 @@ Fantasy Wrapped hace lo mismo con la temporada: cada participante entra, se sele
 - **framer-motion** para las animaciones
 - **Recharts** para visualización de datos
 - **Tailwind CSS** y **shadcn/ui** (sobre Radix UI)
-- Desplegado en **Vercel**, con Vercel Analytics
+- Desplegado en **Cloudflare Pages**
 
 ---
 
