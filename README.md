@@ -5,7 +5,7 @@ Un «Wrapped» al estilo Spotify para una liga de fantasy entre amigos: coge los
 <!-- SUSTITUIR: gif o captura de la secuencia de historias -->
 <!-- ![Secuencia de historias](docs/demo.gif) -->
 
-**[Ver en vivo →](#)** <!-- SUSTITUIR con la URL de Vercel -->
+**[Ver en vivo →](#)** <!-- (https://fantasy-wrapped.pages.dev/) -->
 
 ---
 
